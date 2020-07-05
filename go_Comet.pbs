@@ -1,0 +1,25 @@
+#!/bin/bash                    
+#SBATCH --job-name="post"          
+#SBATCH --output="post.%N.out"
+#SBATCH --partition=compute
+#SBATCH -A TG-AST120066
+#SBATCH --nodes=1
+######SBATCH --ntasks-per-node=24
+#####SBATCH -p LM
+#####SBATCH --mem=80Gb   
+#####SBATCH --mem=3072Gb     
+#SBATCH --export=ALL        
+#SBATCH -t 20:00:00 
+
+export OMP_NUM_THREADS=24
+export KMP_AFFINITY="disabled"
+export KMP_LIBRARY=turnaround
+export KMP_SCHEDULE="static,balanced"
+export KMP_STACKSIZE=256M
+
+module load intel
+module load python
+
+cd /oasis/scratch/comet/ccain002/temp_project/tools/3d_radtransfer_postprocess/
+./3d_radtransfer.x > output_256_post.txt
+
